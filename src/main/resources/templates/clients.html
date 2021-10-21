@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>База клиентов</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css" integrity="sha512-P5MgMn1jBN01asBgU0z60Qk4QxiXo86+wlFahKrsQf37c9cro517WzVSPPV1tDKzhku2iJ2FVgL67wG03SGnNA==" crossorigin="anonymous">
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.bundle.min.js" integrity="sha512-wV7Yj1alIZDqZFCUQJy85VN+qvEIly93fIQAN7iqDFCPEucLCeNFz4r35FCo9s6WrpdDQPi80xbljXB8Bjtvcg==" crossorigin="anonymous"></script>
+    <link type="text/css" rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="header" style="margin-bottom: 0">
+    <div id="logo">
+        <img th:src="@{/img/logo1.png}"/>
+    </div>
+    <div class="nav-auth" sec:authorize="isAuthenticated()" >
+        <div class="dropdown">
+            <a class="btn btn-secondary dropdown-toggle account-button" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span style="font-size: 15px">Добро пожаловать,</span><br/>
+                <span th:text="${user.username}"></span>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <a class="dropdown-item" style="font-size: 18px; font-family: Arial" th:href="@{/account}">Мой аккаунт</a>
+                <a class="dropdown-item" style="font-size: 18px; font-family: Arial" th:href="@{/logout}">Выход</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="db">
+    <div class="db-data">
+        <h3 th:if="${clients.size() == 0}">Ничего не найдено</h3>
+        <table class="db-table" th:if="${clients.size() > 0}">
+            <thead>
+                <tr>
+                    <th>Имя</th>
+                    <th>Фамилия</th>
+                    <th>Пол</th>
+                    <th>Возраст</th>
+                    <th>Серия паспорта</th>
+                    <th>Номер паспорта</th>
+                    <th>Номер телефона</th>
+                    <th>Файл с информацией</th>
+                    <th>Удалить</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="db-line" th:each="client : ${clients}">
+                    <td style="border-radius: 8px 0 0 8px" th:text="${client.firstName}"/>
+                    <td th:text="${client.lastName}"/>
+                    <td th:text="${client.sex}"/>
+                    <td th:text="${client.age}"/>
+                    <td th:text="${client.passportSeries}"/>
+                    <td th:text="${client.passportNumber}"/>
+                    <td th:text="${client.phone}"/>
+                    <td><a th:href="@{/download(id=${client.clientId})}">Скачать</a></td>
+                    <td><a th:href="@{/delete(id=${client.clientId})}">Удалить</a></td>
+                </tr>
+            </tbody>
+        </table>
+        <a th:href="@{/clients(page=${currentPage-1})}" style="display: inline-block;
+            float: bottom; text-decoration: none" class="menu-button" th:if="${hasPrevious != null}">
+            Предыдущая страница
+        </a>
+        <a th:href="@{/clients(page=${currentPage+1})}" style="display: inline-block;
+            float: bottom; text-decoration: none" class="menu-button" th:if="${hasNext != null}">
+            Следующая страница
+        </a>
+        <a th:href="@{/clients}" style="display: inline-block;
+            float: bottom; text-decoration: none" class="menu-button" th:if="${back != null}">
+            Назад
+        </a>
+    </div>
+    <div class="db-menu">
+        <div style="width: 100%; text-align: center; font-family: Arial; font-size: 40px; color: #0c4e84; font-weight: bold; margin-bottom: 5px">Меню</div>
+        <hr>
+        <div class="menu-button" onclick="document.location.href='addclient'">
+            Добавить клиента
+        </div>
+        <hr>
+        <div class="menu-form">
+            <span style="font-family: Arial; font-size: 18px; color: #0c4e84; font-weight: bold">Поиск по имени и фамилии</span>
+            <form class="form-signin" method="post" th:action="@{/findbyname}">
+                <p>
+                    <label class="form-label" for="firstName">Email адрес</label>
+                    <input type="text" id="firstName" name="firstName" class="form-control" placeholder="Имя" required>
+                </p>
+                <p>
+                    <label class="form-label" for="lastName">Пароль</label>
+                    <input type="text" id="lastName" name="lastName" class="form-control" placeholder="Фамилия" required>
+                </p>
+                <button class="menu-button" type="submit">Найти</button>
+            </form>
+        </div>
+        <hr>
+        <div class="menu-form">
+            <span style="font-family: Arial; font-size: 18px; color: #0c4e84; font-weight: bold">Поиск по паспорта</span>
+            <form class="form-signin" method="post" th:action="@{/findbypass}">
+                <p>
+                    <label class="form-label" for="passportSeries">Серия паспорта</label>
+                    <input type="text" id="passportSeries" name="passportSeries" class="form-control" placeholder="0000" required>
+                </p>
+                <p>
+                    <label class="form-label" for="passportNumber">Номер паспорта</label>
+                    <input type="text" id="passportNumber" name="passportNumber" class="form-control" placeholder="000000" required>
+                </p>
+                <button class="menu-button" type="submit">Найти</button>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="footer">
+    2021-2021<br/>
+    GAZER CMP
+</div>
+</body>
+</html>

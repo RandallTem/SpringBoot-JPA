@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Авторизация</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css" integrity="sha512-P5MgMn1jBN01asBgU0z60Qk4QxiXo86+wlFahKrsQf37c9cro517WzVSPPV1tDKzhku2iJ2FVgL67wG03SGnNA==" crossorigin="anonymous">
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.bundle.min.js" integrity="sha512-wV7Yj1alIZDqZFCUQJy85VN+qvEIly93fIQAN7iqDFCPEucLCeNFz4r35FCo9s6WrpdDQPi80xbljXB8Bjtvcg==" crossorigin="anonymous"></script>
+    <link type="text/css" rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="header">
+    <div id="logo">
+        <img th:src="@{/img/logo1.png}"/>
+    </div>
+    <div class="nav-no-auth">
+        <div class="auth-button" onclick="document.location.href='register'">
+            РЕГИСТРАЦИЯ
+        </div>
+    </div>
+</div>
+<div class="body">
+    <div class="login-form">
+        <div class="form-sign">
+            ВХОД
+        </div>
+        <hr style="height: 12px; border: 0; box-shadow: inset 0 15px 12px -11px rgba(0,0,0,0.15);">
+        <form class="form-signin" th:action="@{/login}" method="post">
+            <p>
+                <label class="form-label" for="email">Email адрес</label>
+                <input type="text" id="email" name="email" class="form-control" placeholder="Email адрес" required>
+            </p>
+            <p>
+                <label class="form-label" for="password">Пароль</label>
+                <input type="text" id="password" name="password" class="form-control" placeholder="Пароль" required>
+            </p>
+            <p>
+                <input type="checkbox" id="remember-me" name="remember-me" style="display: inline">
+                <span style="display: inline; margin-left: 15px" class="form-label">Запомнить меня</span>
+            </p>
+            <button class="auth-button" style="width: 100%; margin: 5px auto; padding-top: 2px" type="submit">ВОЙТИ</button>
+        </form>
+        <div style="margin-top: 105px">
+            <span th:if="${param.error != null}" class="error-message">Введены неверные данные</span>
+        </div>
+    </div>
+</div>
+<div class="footer">
+    2021-2021<br/>
+    GAZER CMP
+</div>
+</body>
+</html>

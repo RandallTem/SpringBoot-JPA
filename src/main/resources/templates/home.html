@@ -1,0 +1,89 @@
+<html lang="ru" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <title>Главная страница</title>
+    <!-- Bootstrap CSS (Cloudflare CDN) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css" integrity="sha512-P5MgMn1jBN01asBgU0z60Qk4QxiXo86+wlFahKrsQf37c9cro517WzVSPPV1tDKzhku2iJ2FVgL67wG03SGnNA==" crossorigin="anonymous">
+    <!-- jQuery (Cloudflare CDN) -->
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+    <!-- Bootstrap Bundle JS (Cloudflare CDN) -->
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.bundle.min.js" integrity="sha512-wV7Yj1alIZDqZFCUQJy85VN+qvEIly93fIQAN7iqDFCPEucLCeNFz4r35FCo9s6WrpdDQPi80xbljXB8Bjtvcg==" crossorigin="anonymous"></script>
+    <link type="text/css" rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+<div class="header">
+    <div id="logo">
+        <img th:src="@{/img/logo1.png}"/>
+    </div>
+    <div class="nav-auth" sec:authorize="isAuthenticated()" >
+        <div class="dropdown">
+            <a class="btn btn-secondary dropdown-toggle account-button" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span style="font-size: 15px">Добро пожаловать,</span><br/>
+                <span th:text="${user.username}"></span>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <a class="dropdown-item" style="font-size: 18px; font-family: Arial" th:href="@{/account}">Мой аккаунт</a>
+                <a class="dropdown-item" style="font-size: 18px; font-family: Arial" th:href="@{/logout}">Выход</a>
+            </div>
+        </div>
+        <div class="auth-button" style="float:left" onclick="document.location.href='clients'">
+            МОИ КЛИЕНТЫ
+        </div>
+    </div>
+    <div class="nav-no-auth" sec:authorize="!isAuthenticated()" >
+        <div class="auth-button" onclick="document.location.href='login'">
+            ВХОД
+        </div>
+        <div class="auth-button" onclick="document.location.href='register'">
+            РЕГИСТРАЦИЯ
+        </div>
+    </div>
+</div>
+<div class="body">
+    <div class="intro">
+        <span class="name">GAZER</span>
+        <p class="description">
+            Удобная платформа для ведения клиентской базы.<br/>
+            Только необходимые вам таблицы, поля и отчеты.<br/>
+            Все самое нужное без лишних затрат.
+        </p>
+        <img th:src="@{/img/clients_pic1.png}">
+    </div>
+    <div class="advantage-1">
+        <img th:src="@{/img/clients_pic2.png}">
+        <div class="advantage-text">
+            <span class="adv-name">Добавляйте новых клиентов</span>
+            <p class="adv-description">
+                Просто заполните форму
+            </p>
+        </div>
+    </div>
+    <div class="advantage-2">
+        <div class="advantage-text" style="margin-left: 80px;">
+            <span class="adv-name">Загружайте файлы</span>
+            <p class="adv-description">
+                Дополняйте данные о клиентах файлами.<br/>
+                Можно приложить PDF
+            </p>
+        </div>
+        <img th:src="@{/img/clients_pic3.png}">
+    </div>
+    <div class="attraction" sec:authorize="!isAuthenticated()">
+        <div class="present">
+            ПРИ РЕГИСТРАЦИИ<br/>
+            20 КЛИЕНТОВ В ПОДАРОК
+        </div>
+        <div class="reg-call">
+            <div class="auth-button" style="margin: 60px auto; float: none; width: 500px" onclick="document.location.href='register'">
+                ПОЛУЧИТЬ БЕСПЛАТНЫХ КЛИЕНТОВ
+            </div>
+        </div>
+    </div>
+</div>
+<div class="footer">
+    2021-2021<br/>
+    GAZER CMP
+</div>
+</body>
+</html>
