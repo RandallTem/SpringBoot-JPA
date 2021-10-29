@@ -47,6 +47,15 @@ public class UserServiceTest extends TestCase {
         Mockito.when(userRepository.findUserByEmail("test@mail.com")).thenReturn(user);
     }
 
+    /**
+     * Тестирование метода saveUser(). Методу передается объект User, который затем сохраняется в базу данных.
+     * Если все проходит хорошо, возвращается true. Если возникает какое-либо исключение, тогда false.
+     */
+    @Test
+    public void testSaveUser() {
+        boolean res = userService.saveUser(user);
+        assertTrue(res);
+    }
 
     /**
      * Тестирование метода checkUserPassword(). Методу передаются email и пароль. Из базы данных
@@ -64,11 +73,30 @@ public class UserServiceTest extends TestCase {
      * объект с искомой почтой. Если объект не найден и вернулся null, выбрасывается исключение
      * UsernameNotFoundException, иначе, метод возвращает найденный объект User.
      */
+
     @Test
     public void testLoadUserByUsername() {
         User receivedUser = (User)userService.loadUserByUsername("test@mail.com");
         assertEquals(receivedUser, user);
     }
 
+    /**
+     * Тестирование метода updateAccount(). Метод принимает два объекта User, один оригинальный, а
+     * второй - с обновленными данными. В оригинальным аккаунте обновляются значения полей и он сохраняется
+     * в базу данных.
+     */
+    @Test
+    public void testUpdateUser() {
+        userService.updateAccount(user, user);
+    }
+
+    /**
+     * Тестирование метода deleteUser(). Метод принимает объект User и удаляет связанную с ним запись
+     * из базы данных.
+     */
+    @Test
+    public void deleteUser() {
+        userService.deleteUser(user);
+    }
 
 }

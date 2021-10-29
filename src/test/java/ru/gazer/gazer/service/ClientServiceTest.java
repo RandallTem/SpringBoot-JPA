@@ -11,6 +11,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.web.multipart.MultipartFile;
 import ru.gazer.gazer.models.Client;
 import ru.gazer.gazer.repos.ClientRepository;
 
@@ -78,6 +79,15 @@ public class ClientServiceTest extends TestCase {
     public void testIsPassportUsed() {
         boolean res = clientService.isPassportUsed("1111", "222222", 0);
         assertTrue(res);
+    }
+
+    /**
+     * Тестирование метода deleteClient(). На вход принимает ID клиента, который должен быть удален
+     * из базы данных.
+     */
+    @Test
+    public void testDeleteClient() {
+        clientService.deleteClient(1);
     }
 
     /**
